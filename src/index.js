@@ -1,18 +1,49 @@
-import React    from 'react';
-import ReactDOM from 'react-dom';
-import YTSearch from 'youtube-api-search';
+import React, { Component } from 'react';
+import ReactDOM             from 'react-dom';
+import YTSearch             from 'youtube-api-search';
 
-import SearchBar from './components/search-bar';
+import SearchBar   from './components/search-bar';
+import VideoList   from './components/video-list';
+import VideoDetail from './components/video-detail';
 
 const API_KEY = 'AIzaSyB_H4M1y4o6rpS4MCG-fl3CBC1O8ab5GsQ';
 
-YTSearch({
-    key: API_KEY,
-    term: 'rick & morty'
-}, function(data) { console.log(data);});
+class App extends Component
+{
+    constructor(props) {
+        super(props);
+        this.state = {
+            videos: [],
+            selectedVideo: null
+        };
 
-const App = () => {
-    return <div><SearchBar /></div>;
-};
+        this.videoSearch('rick & morty');
+    }
+
+    videoSearch(term) {
+        YTSearch({ key: API_KEY, term: term}, videos => {
+            this.setState({
+                videos:        videos,
+                selectedVideo: videos[0]
+            });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <SearchBar
+                     onSearchTermChange={ term => this.videoSearch(term) }/>
+                <VideoDetail
+                    video={ this.state.selectedVideo } />
+                <VideoList
+                    onVideoSelect={ this.selectVideo }
+                    videos={ this.state.videos } />
+            </div>
+        );
+    }
+
+    selectVideo = selectedVideo => { this.setState({selectedVideo}) };
+}
 
 ReactDOM.render(<App />, document.querySelector('.container'));
