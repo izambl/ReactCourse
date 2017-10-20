@@ -1,13 +1,21 @@
-import React, { Component } from 'react';
-import ReactDOM             from 'react-dom';
-import YTSearch             from 'youtube-api-search';
-import _                    from 'lodash';
+import React, { Component }     from 'react';
+import ReactDOM                 from 'react-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import YTSearch                 from 'youtube-api-search';
+import _                        from 'lodash';
 
 import SearchBar   from './components/search-bar';
 import VideoList   from './components/video-list';
 import VideoDetail from './components/video-detail';
 
 const API_KEY = 'AIzaSyB_H4M1y4o6rpS4MCG-fl3CBC1O8ab5GsQ';
+
+class Hello extends Component
+{
+    render() {
+        return <h1>Hello TD!</h1>;
+    }
+}
 
 class App extends Component
 {
@@ -49,4 +57,19 @@ class App extends Component
     selectVideo = selectedVideo => { this.setState({selectedVideo}) };
 }
 
-ReactDOM.render(<App />, document.querySelector('.container'));
+function Router() {
+    return (
+        <div>
+            <Route path="/" component={ App } />
+            <Route path="/hello" component={ Hello } />
+        </div>
+    );
+}
+
+ReactDOM.render(
+    (
+        <BrowserRouter>
+            { Router() }
+        </BrowserRouter>
+    )
+    , document.getElementById('app'));
