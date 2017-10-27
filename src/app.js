@@ -4,6 +4,8 @@ import ReactDOM                         from 'react-dom';
 import SearchBar   from './components/search-bar';
 import VideoList   from './components/video-list';
 import VideoDetail from './components/video-detail';
+import TestCompone from './components/test-component';
+
 
 import YTSearch from 'youtube-api-search';
 import _                                from 'lodash';
@@ -36,6 +38,7 @@ export class App extends Component
 
         return (
             <div>
+                <TestCompone><h1>testeando</h1></TestCompone>
                 <SearchBar
                      onSearchTermChange={ videoSearch } />
                 <VideoDetail
